@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM debian/buster-slim:latest
 ENTRYPOINT ["/bin/logspout"]
 VOLUME /mnt/routes
 EXPOSE 80
