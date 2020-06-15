@@ -4,8 +4,9 @@ VOLUME /mnt/routes
 EXPOSE 80
 
 COPY . /src
-RUN echo $(ls -a .)
-RUN cd /src && ./build.sh "$(cat VERSION)"
+RUN cd src
+RUN chmod +x ./build.sh
+RUN ./build.sh "$(cat VERSION)"
 
 ONBUILD COPY ./build.sh /src/build.sh
 ONBUILD COPY ./modules.go /src/modules.go
