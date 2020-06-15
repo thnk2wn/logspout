@@ -36,6 +36,12 @@ jobs:
             dep ensure
         fi
 
+    - name: QEMU Prep
+      run: |
+          pwd
+          chmod u+x ./qemu.sh
+          sudo ./qemu.sh
+
     - name: Docker build
       uses: docker/build-push-action@v1
       with:
