@@ -3,14 +3,12 @@ ENTRYPOINT ["/bin/logspout"]
 VOLUME /mnt/routes
 EXPOSE 80
 
-RUN pwd
-RUN ls -a
 COPY . /src
-RUN cd /src
-RUN pwd
-RUN ls -a
-RUN chmod +x ./build.sh
-RUN ./build.sh "$(cat VERSION)"
+
+RUN ls -a /src
+
+RUN cd /src && chmod +x ./build.sh && ./build.sh "$(cat VERSION)"
+
 
 ONBUILD COPY ./build.sh /src/build.sh
 ONBUILD COPY ./modules.go /src/modules.go
