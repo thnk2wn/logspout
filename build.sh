@@ -2,7 +2,7 @@ set -e
 
 echo "Adding packages"
 #apk add -v --update go build-base git mercurial ca-certificates
-apt-get install build-base git mercurial ca-certificates
+apt-get install git mercurial ca-certificates
 
 echo "Switching to src dir"
 cd /src
@@ -12,7 +12,7 @@ go build -ldflags "-X main.Version=$1" -o /bin/logspout
 
 echo "Deleting packages"
 #apk del go git mercurial build-base
-apt-get remove git mercurial build-base
+apt-get remove git mercurial
 
 echo "Cleaning up"
 rm -rf /root/go /var/cache/apk/*
