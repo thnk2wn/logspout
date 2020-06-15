@@ -1,16 +1,5 @@
 set -e
 
-echo "Go get"
-go get -v -t -d ./...
-
-if [ -f Gopkg.toml ]; then
-    echo "Installing Go dependency manager"
-    curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-
-    echo "Ensuring dependencies"
-    dep ensure
-fi
-
 echo "Adding packages"
 apk add -v --update go build-base git mercurial ca-certificates
 
