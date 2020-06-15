@@ -1,4 +1,4 @@
-FROM hypriot/rpi-alpine-scratch:latest
+FROM arm32v7/debian:buster-slim
 ENTRYPOINT ["/bin/logspout"]
 VOLUME /mnt/routes
 EXPOSE 80
