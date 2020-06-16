@@ -1,0 +1,32 @@
+# Building image
+FROM --platform=$BUILDPLATFORM golang:1.12-alpine3.10 AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
+RUN apk add --update bash git
+
+WORKDIR /go/src/github.com/gliderlabs/logspout
+COPY . .
+
+RUN go get github.com/Masterminds/glide
+RUN $GOPATH/bin/glide install
+
+RUN arch=${TARGETPLATFORM#*/} && arch=${arch%/*} \
+    && env GOOS=linux GOARCH=$arch go build -ldflags "-X main.Version=$(cat VERSION)" -o /bin/logspout
+
+# Shipping image
+FROM alpine:3.10
+
+# Backward compatible...
+COPY --from=build /go/src/github.com/gliderlabs/logspout /src
+COPY --from=build /bin/logspout /bin/logspout
+
+ENTRYPOINT ["/bin/logspout"]
+VOLUME /mnt/routes
+EXPOSE 80
+
+ONBUILD COPY ./build.sh /src/build.sh
+ONBUILD COPY ./modules.go /src/modules.go
+ONBUILD RUN cd /src && chmod +x ./build.sh && sleep 1 && sync && ./build.sh "$(cat VERSION)-custom"
