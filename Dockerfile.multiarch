@@ -10,8 +10,8 @@ RUN apk add --update bash git
 WORKDIR /go/src/github.com/gliderlabs/logspout
 COPY . .
 
-RUN go get github.com/Masterminds/glide
-RUN $GOPATH/bin/glide install
+#RUN go get github.com/Masterminds/glide
+#RUN $GOPATH/bin/glide install
 
 RUN arch=${TARGETPLATFORM#*/} && arch=${arch%/*} \
     && env GOOS=linux GOARCH=$arch go build -ldflags "-X main.Version=$(cat VERSION)" -o /bin/logspout
