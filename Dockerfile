@@ -1,4 +1,4 @@
-FROM golang:1.14.4-buster
+FROM arm32v7/golang:1.14
 ENTRYPOINT ["/bin/logspout"]
 VOLUME /mnt/routes
 EXPOSE 80
